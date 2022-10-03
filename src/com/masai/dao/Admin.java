@@ -17,7 +17,7 @@ import com.masai.exception.FacultyExcepetion;
 
 public interface Admin {
 	
-	public  String loginAdmin(String username, String password) throws AdminException;
+	public  boolean loginAdmin(String username, String password) throws AdminException;
 	
 	public String addCourse(Course course) throws CourseException;
 	public String updateCourse(int courseid) throws CourseException;
