@@ -28,8 +28,8 @@ import com.mysql.cj.xdevapi.DbDoc;
 public class AdminImple implements Admin{
 
 	@Override
-	public String loginAdmin(String username, String password) throws AdminException {
-		String msg=null;
+	public boolean loginAdmin(String username, String password) throws AdminException {
+		boolean msg = false;
 		boolean flag = false ;
 		
 		try (Connection conn = DButil.provideConnection()){
@@ -38,27 +38,36 @@ public class AdminImple implements Admin{
 			
 			ResultSet rs = ps.executeQuery();
 			
-			while(rs.next()) {
 				
-				String usern = rs.getString("username");
-				String userp = rs.getString("password");
-				
-				if(username.equals(usern)&&password.equals(userp)) {
+				while(rs.next()) {
 					
-					flag=true;
+					String usern = rs.getString("username");
+					String userp = rs.getString("password");
+					
+					if(username.equals(usern)&&password.equals(userp)) {
+						
+						flag=true;
+					}
+					
+					if(flag)
+						break;
+					
+					
 				}
-				if(flag)
-					break;
+				
+				if(flag) {
+//					msg="Admin Sucessfully Login.....!";
+					System.out.println("Admin Sucessfully Login.....!");
+					msg = true;
+					
+				}else {
+					
+					System.out.println("Incorrect Credidential");
+//					throw new AdminException("Incorrect Credidential");
+//					msg="Incorrect Credidential";
+				}	
 				
 				
-			}
-			
-			if(flag)
-				msg="Admin Sucessfully Login.....!";
-			else
-				throw new AdminException("Incorrect Credidential");
-			
-			
 			
 		} catch (SQLException e) {
 			
